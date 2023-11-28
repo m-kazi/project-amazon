@@ -81,13 +81,43 @@ products.forEach((product) => {
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary">Add to Cart</button>
+    <button class="add-to-cart-button button-primary js-add-to-cart" 
+    data-product-id="${product.id}">Add to Cart</button>
   </div>
   `;
 });
 
-console.log(productsHTML);
-
 // ** Adding HTML into the page using DOM **
-
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+// ** Making add to cart button interactive **
+//Created a seperate cart.js file and also added "Data" attribute to the button element above.
+//dataset property gives us all the data attributes attached to the element, in this case (button element).
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.dataset.productId; //productName is from the "data-{product-name}"
+
+    //saving the matching item in a variable.
+    let matchingItem;
+
+    //checkig if the productName already is in the cart using forEach(),
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        matchingItem = item;
+      }
+    });
+
+    //If the product is already there will increase the quantity
+    if (matchingItem) {
+      matchingItem.quantity += 1;
+    } else {
+      //cart is an array from the cart.js file
+      cart.push({
+        productId: productId,
+        quantity: 1,
+      });
+    }
+
+    console.log(cart);
+  });
+});
