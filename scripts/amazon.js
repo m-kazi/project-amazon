@@ -87,7 +87,7 @@ products.forEach((product) => {
   `;
 });
 
-// ** Adding HTML into the page using DOM **
+// ** Adding HTML products into the page using DOM **
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 // ** Making add to cart button interactive **
@@ -118,6 +118,15 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       });
     }
 
-    console.log(cart);
+    //To store the total quantity
+    let cartQuantity = 0;
+
+    //Adding total products into the cart quantity by looping through the cart Array.
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+
+    // ** Adding HTML cart quantity into the page using DOM **
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
   });
 });
