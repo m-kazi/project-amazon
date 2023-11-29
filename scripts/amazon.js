@@ -26,8 +26,9 @@
   
 ]; */
 
-//Importing cart variable from the cart.js file
+//Importing variables from the cart.js & products.js files
 import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
 
 // **Accumulator Pattern - we loop through an Array an adding to the result. Accumulating the result. **
 //Each time we go through the loop, the HTML string below will be added to this variable.
