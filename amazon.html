@@ -59,11 +59,12 @@
       <div class="products-grid js-products-grid"></div>
     </div>
 
-    //This JS file is for the Cart and needed to load before products file.
-    <script src="data/cart.js"></script>
-    //This JS file creates the products. Need to maintain the JS file order.
+    <!-- This JS file is for the Cart and needed to load before products file. -->
+    <!-- <script src="data/cart.js"></script> : And imported as a module -->
+
+    <!-- This JS file creates the products. Need to maintain the JS file order. -->
     <script src="data/products.js"></script>
-    //This JS file loops through the products.
-    <script src="scripts/amazon.js"></script>
+    <!-- //This JS file loops through the products. -->
+    <script type="module" src="scripts/amazon.js"></script>
   </body>
 </html>
