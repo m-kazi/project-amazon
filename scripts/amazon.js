@@ -60,7 +60,7 @@ products.forEach((product) => {
     <div class="product-price">${(product.priceCents / 100).toFixed(2)}</div>
 
     <div class="product-quantity-container">
-      <select>
+      <select class="js-quantity-selector-${product.id}">
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -76,7 +76,7 @@ products.forEach((product) => {
 
     <div class="product-spacer"></div>
 
-    <div class="added-to-cart">
+    <div class="added-to-cart js-added-to-cart-${product.id}">
       <img src="images/icons/checkmark.png" />
       Added
     </div>
@@ -95,7 +95,8 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 //dataset property gives us all the data attributes attached to the element, in this case (button element).
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId; //productName is from the "data-{product-name}"
+    // const productId = button.dataset.productId; //productName is from the "data-{product-name}"
+    const { productId } = button.dataset; //Shorthand property
 
     //saving the matching item in a variable.
     let matchingItem;
@@ -107,14 +108,23 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       }
     });
 
+    //Using DOM to get the quantity from the dropdown
+    const quantitySelector = document.querySelector(
+      `.js-quantity-selector-${productId}`
+    );
+
+    const quantity = Number(quantitySelector.value); //Values from DOM are strings, need to convert.
+
     //If the product is already there will increase the quantity
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantity;
     } else {
       //cart is an array from the cart.js file
       cart.push({
-        productId: productId,
-        quantity: 1,
+        /* productId: productId,
+        quantity: quantity, */
+        productId,
+        quantity,
       });
     }
 
@@ -128,5 +138,18 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 
     // ** Adding HTML cart quantity into the page using DOM **
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+    //Getting added message from the HTML using DOM and save in a veriable
+    const addedMessage = document.querySelector(
+      `.js-added-to-cart-${productId}`
+    );
+
+    //Adding CSS class using DOM and modify into the amazon.css file. CSS class can be selected without dot (.) in front of the class name.
+    addedMessage.classList.add("added-to-cart-visible");
+
+    //Setting time to remove Added Message diseppear after 2 seconds.
+    setTimeout(() => {
+      addedMessage.classList.remove("added-to-cart-visible");
+    }, 2000);
   });
 });
