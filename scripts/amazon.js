@@ -26,8 +26,8 @@
   
 ]; */
 
-//Importing variables from the cart.js & products.js files
-import { cart } from "../data/cart.js";
+//Importing variables & functions from the cart.js & products.js files
+import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 // **Accumulator Pattern - we loop through an Array an adding to the result. Accumulating the result. **
@@ -94,6 +94,20 @@ products.forEach((product) => {
 // ** Adding HTML products into the page using DOM **
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
+//** Function to update cart quantity on the webpage.
+function updateCartQuantity() {
+  //To store the total quantity
+  let cartQuantity = 0;
+
+  //Adding total products into the cart quantity by looping through the cart Array.
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  // ** Adding HTML cart quantity into the page using DOM **
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
+
 // ** Making add to cart button interactive **
 //Created a seperate cart.js file and also added "Data" attribute to the button element above.
 //dataset property gives us all the data attributes attached to the element, in this case (button element).
@@ -102,46 +116,8 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     // const productId = button.dataset.productId; //productName is from the "data-{product-name}"
     const { productId } = button.dataset; //Shorthand property
 
-    //saving the matching item in a variable.
-    let matchingItem;
-
-    //checkig if the productName already is in the cart using forEach(),
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        matchingItem = item;
-      }
-    });
-
-    //Using DOM to get the quantity from the dropdown
-    const quantitySelector = document.querySelector(
-      `.js-quantity-selector-${productId}`
-    );
-
-    const quantity = Number(quantitySelector.value); //Values from DOM are strings, need to convert.
-
-    //If the product is already there will increase the quantity
-    if (matchingItem) {
-      matchingItem.quantity += quantity;
-    } else {
-      //cart is an array from the cart.js file
-      cart.push({
-        /* productId: productId,
-        quantity: quantity, */
-        productId,
-        quantity,
-      });
-    }
-
-    //To store the total quantity
-    let cartQuantity = 0;
-
-    //Adding total products into the cart quantity by looping through the cart Array.
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
-    // ** Adding HTML cart quantity into the page using DOM **
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+    addToCart(productId); // Calling add to cart function
+    updateCartQuantity(); // Calling add to Update the Cart quantity function
 
     //Getting added message from the HTML using DOM and save in a veriable
     const addedMessage = document.querySelector(
