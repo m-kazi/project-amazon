@@ -29,6 +29,7 @@
 //Importing variables & functions from the cart.js & products.js files
 import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { formatCurrency } from "./util/currency.js";
 
 // **Accumulator Pattern - we loop through an Array an adding to the result. Accumulating the result. **
 //Each time we go through the loop, the HTML string below will be added to this variable.
@@ -61,7 +62,7 @@ products.forEach((product) => {
       }</div>
     </div>
 
-    <div class="product-price">${(product.priceCents / 100).toFixed(2)}</div>
+    <div class="product-price">$${formatCurrency(product.priceCents)}</div>
 
     <div class="product-quantity-container">
       <select class="js-quantity-selector-${product.id}">
