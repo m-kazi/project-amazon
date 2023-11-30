@@ -10,3 +10,7 @@ Get a variable out of a file:
 - Add type="module" attribute
 - export
 - import
+
+Deduplicating or Normalizing the data
+
+- By using a product ID pulling other information is one of the example of this technique.
