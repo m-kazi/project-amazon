@@ -59,6 +59,16 @@ export function addToCart(productId) {
   saveToStorage();
 }
 
+export function calculateCartQuantity() {
+  let cartQuantity = 0;
+
+  //Adding total products into the cart quantity by looping through the cart Array.
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  return cartQuantity;
+}
+
 // 1.Create a new array, 2.Loop through the cart, 3.Add each product to the new array, except for this productid.
 export function removeFromCart(productId) {
   const newCart = [];

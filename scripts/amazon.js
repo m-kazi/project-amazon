@@ -27,7 +27,7 @@
 ]; */
 
 //Importing variables & functions from the cart.js & products.js files
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./util/currency.js";
 
@@ -98,16 +98,13 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 //** Function to update cart quantity on the webpage.
 function updateCartQuantity() {
   //To store the total quantity
-  let cartQuantity = 0;
-
-  //Adding total products into the cart quantity by looping through the cart Array.
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+  const cartQuantity = calculateCartQuantity();
 
   // ** Adding HTML cart quantity into the page using DOM **
   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
+
+updateCartQuantity(); //Updating the cart quantity to show on the cart icon.
 
 // ** Making add to cart button interactive **
 //Created a seperate cart.js file and also added "Data" attribute to the button element above.
