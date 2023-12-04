@@ -1,14 +1,27 @@
 //Exporting the variable and import into amazon.js file
-export let cart = [
-  {
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2,
-  },
-  {
-    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity: 1,
-  },
-];
+
+//To get the cart items from local storage using getItem - it takes name value
+export let cart = JSON.parse(localStorage.getItem("cart"));
+
+//if the cart is empty we put a default value for reference
+if (!cart) {
+  cart = [
+    {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+    },
+    {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+    },
+  ];
+}
+
+//**Save our cart into the local storage
+//setItem has 2 values - name, data. local storage only saves strings.
+function saveToStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 //**Function for add products to the cart
 export function addToCart(productId) {
@@ -41,6 +54,9 @@ export function addToCart(productId) {
       quantity,
     });
   }
+
+  //Whenever we update the cart we need to save it to the localstorage, to do that calling the function below.
+  saveToStorage();
 }
 
 // 1.Create a new array, 2.Loop through the cart, 3.Add each product to the new array, except for this productid.
@@ -54,4 +70,7 @@ export function removeFromCart(productId) {
   });
 
   cart = newCart; //Will take our newCart and replace the cart
+
+  //Calling the localstorage function to update the cart
+  saveToStorage();
 }
