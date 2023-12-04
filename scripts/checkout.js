@@ -119,5 +119,21 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
     );
 
     container.remove(); //Every elements we get with DOM, has a method called .remove()
+    updateCartQuantity(); //Calling this function to update the header when delete an item
   });
 });
+
+//Function to update cart items on the header
+function updateCartQuantity() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(
+    ".js-return-to-home-link"
+  ).innerHTML = `${cartQuantity} items`;
+}
+
+updateCartQuantity(); //Calling this function when loading the page
