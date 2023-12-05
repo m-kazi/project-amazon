@@ -69,6 +69,21 @@ export function calculateCartQuantity() {
   return cartQuantity;
 }
 
+//This function will find a matching product in the cart and update the quantity to the new quantity. also saved it into the local storage.
+export function updateQuantity(productId, newQuantity) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+
+  saveToStorage();
+}
+
 // 1.Create a new array, 2.Loop through the cart, 3.Add each product to the new array, except for this productid.
 export function removeFromCart(productId) {
   const newCart = [];

@@ -1,4 +1,9 @@
-import { cart, removeFromCart, calculateCartQuantity } from "../data/cart.js";
+import {
+  cart,
+  removeFromCart,
+  calculateCartQuantity,
+  updateQuantity,
+} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./util/currency.js";
 
@@ -45,14 +50,20 @@ cart.forEach((cartItem) => {
                   matchingProduct.priceCents
                 )}</div>
                 <div class="product-quantity">
-                  <span> Quantity: <span class="quantity-label">${
-                    cartItem.quantity
-                  }</span> </span>
+                  <span> Quantity: <span class="quantity-label js-quantity-label-${
+                    matchingProduct.id
+                  }">${cartItem.quantity}</span> </span>
                   <span class="update-quantity-link link-primary js-update-link" data-product-id="${
                     matchingProduct.id
                   }">
                     Update
                   </span>
+                  <input class="quantity-input js-quantity-input-${
+                    matchingProduct.id
+                  }">
+                  <span class="save-quantity-link link-primary js-save-link" data-product-id="${
+                    matchingProduct.id
+                  }">save</span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${
                     matchingProduct.id
                   }>
@@ -136,10 +147,47 @@ function updateCartQuantity() {
 
 updateCartQuantity(); //Calling this function when loading the page
 
-//**To get att the update links and adding a 'click' event listener, also attaching the prodiuctId to the each link.
+//**To get all the update links and adding a 'click' event listener, also attaching the prodiuctId to the each link.
 document.querySelectorAll(".js-update-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
     console.log(productId);
+
+    //To get the cart item container when clicking Update
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+
+    //Adding the class name to the main container to get the .quantity-input and .save-quantity-link as they both are inside elements of the main container.
+    container.classList.add("is-editing-quantity");
+  });
+});
+
+//Adding 'click' event listener to all the Save links, Getting the cart-item-container for the product and remove the class 'is-editing-quantity'.
+document.querySelectorAll(".js-save-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const productId = link.dataset.productId;
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+
+    container.classList.remove("is-editing-quantity");
+
+    //Here using the DOM to get the quantity input for the product and get the value inside
+    const quantityInput = document.querySelector(
+      `.js-quantity-input-${productId}`
+    );
+    const newQuantity = Number(quantityInput.value);
+    updateQuantity(productId, newQuantity);
+
+    //Updating the quantity in the HTML
+    const quantityLabel = document.querySelector(
+      `.js-quantity-label-${productId}`
+    );
+
+    quantityLabel.innerHTML = newQuantity;
+
+    updateCartQuantity();
   });
 });
