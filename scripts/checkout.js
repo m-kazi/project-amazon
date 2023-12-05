@@ -168,18 +168,23 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.dataset.productId;
 
-    const container = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-
-    container.classList.remove("is-editing-quantity");
-
     //Here using the DOM to get the quantity input for the product and get the value inside
     const quantityInput = document.querySelector(
       `.js-quantity-input-${productId}`
     );
     const newQuantity = Number(quantityInput.value);
+
+    // For Validation
+    if (newQuantity < 1 || newQuantity >= 1000) {
+      alert("Quantity must be at-least 1 and less than 1000");
+    }
     updateQuantity(productId, newQuantity);
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+
+    container.classList.remove("is-editing-quantity");
 
     //Updating the quantity in the HTML
     const quantityLabel = document.querySelector(
