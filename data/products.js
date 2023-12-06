@@ -1,3 +1,19 @@
+//To get the product details loop
+export function getProduct(productId) {
+  //This variable is to save the search result of the product details from product.js file
+  let matchingProduct;
+
+  //Looping through the products array in product.js file and checking if the id property is equal to our product id here. product.id is from the product.js and productId is ours.
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product; //this we are looping through and saving the result
+    }
+  });
+
+  return matchingProduct;
+}
+
+//All the product details below
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",

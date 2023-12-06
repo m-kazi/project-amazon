@@ -5,9 +5,12 @@ import {
   updateQuantity,
   updateDeliveryOption,
 } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { products, getProduct } from "../../data/products.js";
 import { formatCurrency } from "../util/currency.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import {
+  deliveryOptions,
+  getDeliveryOption,
+} from "../../data/deliveryOptions.js";
 import { hello } from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
 //Using an external library as an ESM = EcmaScript Module, default export. so, {} is not needed.
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
@@ -29,25 +32,12 @@ export function renderOrderSummary() {
     const productId = cartItem.productId;
 
     //This variable is to save the search result of the product details from product.js file
-    let matchingProduct;
-
-    //Looping through the products array in product.js file and checking if the id property is equal to our product id here. product.id is from the product.js and productId is ours.
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product; //this we are looping through
-      }
-    });
+    const matchingProduct = getProduct(productId);
 
     //To update the delivery option title
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
