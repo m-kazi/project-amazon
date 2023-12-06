@@ -3,6 +3,7 @@ import {
   removeFromCart,
   calculateCartQuantity,
   updateQuantity,
+  updateDeliveryOption,
 } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./util/currency.js";
@@ -124,7 +125,9 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html += `
-      <div class="delivery-option">
+      <div class="delivery-option js-delivery-option"
+        data-product-id="${matchingProduct.id}" 
+        data-delivery-option-id="${deliveryOption.id}">
         <input
           type="radio"
           ${isChecked ? "checked" : ""}
@@ -158,6 +161,14 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
 
     container.remove(); //Every elements we get with DOM, has a method called .remove()
     updateCartQuantity(); //Calling this function to update the header when delete an item
+  });
+});
+
+//Adding event listener to the delivery-option. Used data atribute to get the productId & deliveryOptionId
+document.querySelectorAll(".js-delivery-option").forEach((element) => {
+  element.addEventListener("click", () => {
+    const { productId, deliveryOptionId } = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
   });
 });
 
