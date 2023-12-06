@@ -11,16 +11,15 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 import { hello } from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
 //Using an external library as an ESM = EcmaScript Module, default export. so, {} is not needed.
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
-hello();
-
 //Using an external library dayjs() for the delivery date setup. This is a TEST
-const today = dayjs();
+/* const today = dayjs();
 const deliveryDate = today.add(7, "days");
-console.log(deliveryDate.format("dddd, MMMM D"));
+console.log(deliveryDate.format("dddd, MMMM D")); */
 
 //** Putting all the codes into this Function to re-render the page and update all the HTML
 export function renderOrderSummary() {
@@ -152,6 +151,7 @@ export function renderOrderSummary() {
       );
 
       container.remove(); //Every elements we get with DOM, has a method called .remove()
+      renderPaymentSummary(); //Calling this function to update the order summary
       updateCartQuantity(); //Calling this function to update the header when delete an item
     });
   });
@@ -161,7 +161,9 @@ export function renderOrderSummary() {
     element.addEventListener("click", () => {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
+
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 
@@ -223,6 +225,8 @@ export function renderOrderSummary() {
       quantityLabel.innerHTML = newQuantity;
 
       updateCartQuantity();
+
+      renderPaymentSummary(); //To regenrate the HTML as a refresh the page
     });
   });
 }
