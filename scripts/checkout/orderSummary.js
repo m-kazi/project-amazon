@@ -12,9 +12,10 @@ import {
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
-import { hello } from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
+
 //Using an external library as an ESM = EcmaScript Module, default export. so, {} is not needed.
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 //Using an external library dayjs() for the delivery date setup. This is a TEST
 /* const today = dayjs();
@@ -151,6 +152,7 @@ export function renderOrderSummary() {
       );
 
       container.remove(); //Every elements we get with DOM, has a method called .remove()
+      renderCheckoutHeader; //To update the cheackout header by MVC
       renderPaymentSummary(); //Calling this function to update the order summary
       updateCartQuantity(); //Calling this function to update the header when delete an item
     });
